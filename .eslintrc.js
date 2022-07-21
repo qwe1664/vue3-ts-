@@ -22,6 +22,8 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     // 这个是关闭了命名规则的校验
     'vue/multi-word-component-names': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    // 这个是关闭定义接口时的警告,让它自动类型推导
+    '@typescript-eslint/no-unused-vars': 'off'
   }
 }

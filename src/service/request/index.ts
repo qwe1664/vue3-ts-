@@ -56,11 +56,11 @@ class HYRequest {
         this.loading?.close()
 
         const data = res.data
-        if (data.returnCode === '-1001') {
-          console.log('请求失败了')
-        } else {
-          return data
-        }
+        // if (data.returnCode === '-1001') {
+        //   console.log('请求失败了')
+        // } else {
+        //   return data
+        // }
         return res.data
       },
       (err) => {
@@ -76,7 +76,7 @@ class HYRequest {
     )
   }
 
-  request<T>(config: HYRequestConfig): Promise<T> {
+  request<T>(config: HYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
@@ -91,7 +91,7 @@ class HYRequest {
         .then((res) => {
           // 1、单个请求对数据的处理
           if (config.interceptors?.responseInterceptor) {
-            // res = config.interceptors.responseInterceptor(res)
+            res = config.interceptors.responseInterceptor(res)
           }
           // console.log(res.data)
 
@@ -109,16 +109,16 @@ class HYRequest {
     })
   }
 
-  get<T>(config: HYRequestConfig): Promise<T> {
+  get<T>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
-  post<T>(config: HYRequestConfig): Promise<T> {
+  post<T>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
-  delete<T>(config: HYRequestConfig): Promise<T> {
+  delete<T>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
-  patch<T>(config: HYRequestConfig): Promise<T> {
+  patch<T>(config: HYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

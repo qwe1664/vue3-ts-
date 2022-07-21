@@ -11,12 +11,20 @@ import './service/axios_demo'
 // import 'element-plus/dist/index.css'
 import hyRequest from './service'
 
+// 导入的第三方格式化全局样式的包
+import 'normalize.css'
+import './assets/css/index.css'
+
+// dd
+import { setupStore } from './store'
+
 const app = createApp(App)
 
 // 按需注册element-plus
 registerApp(app)
 app.use(router)
 app.use(store)
+setupStore()
 // app.use(ElementPlus)
 app.mount('#app')
 
@@ -26,12 +34,12 @@ interface DataType {
   success: boolean
 }
 
-hyRequest
-  .request<DataType>({
-    url: '/home/multidata',
-    method: 'GET',
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res.data)
-  })
+// hyRequest
+//   .request<DataType>({
+//     url: '/home/multidata',
+//     method: 'GET',
+//     showLoading: false
+//   })
+//   .then((res) => {
+//     console.log(res.data)
+//   })
