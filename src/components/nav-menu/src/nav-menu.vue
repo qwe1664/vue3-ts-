@@ -27,7 +27,10 @@
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleMenuItemClick(subitem)"
+              >
                 <!-- <i v-if="subitem.icon" :class="subitem.icon"></i> -->
                 <el-icon v-if="item.icon">
                   <!-- {{ item.icon }} -->
@@ -60,6 +63,7 @@ import {
   Suitcase,
   ChatLineRound
 } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   // eslint-disable-next-line vue/no-unused-components
@@ -73,15 +77,17 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
-    const isIcon = computed(() => {
-      return userMenus.value.forEach((item: any) => {
-        item.icon
+    const router = useRouter()
+
+    const handleMenuItemClick = (item: any) => {
+      router.push({
+        path: item.url ?? '/not-found'
       })
-    })
+    }
 
     return {
-      isIcon,
-      userMenus
+      userMenus,
+      handleMenuItemClick
     }
   }
 })
