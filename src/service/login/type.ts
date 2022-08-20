@@ -37,8 +37,3 @@ export interface RootObject {
   role: Role
   dapartment: Department
 }
-
-export interface IDataType<T = any> {
-  code: number
-  data: T
-}

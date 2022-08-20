@@ -5,6 +5,8 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import LocalCache from '@/utils/cache'
 
+import { firstMenu } from '@/utils/map-menus'
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -39,6 +41,13 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login'
     }
+  }
+
+  if (to.path.indexOf('/main')) {
+    // if (to.name === 'notFound') {
+    //   to.name = 'user'
+    // }
+    return firstMenu.url
   }
 })
 

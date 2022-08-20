@@ -22,10 +22,11 @@ const app = createApp(App)
 
 // 按需注册element-plus
 registerApp(app)
-app.use(router)
 app.use(store)
 setupStore()
+app.use(router)
 // app.use(ElementPlus)
+
 app.mount('#app')
 
 interface DataType {
@@ -33,13 +34,3 @@ interface DataType {
   returnCode: string
   success: boolean
 }
-
-// hyRequest
-//   .request<DataType>({
-//     url: '/home/multidata',
-//     method: 'GET',
-//     showLoading: false
-//   })
-//   .then((res) => {
-//     console.log(res.data)
-//   })

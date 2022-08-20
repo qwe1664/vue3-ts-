@@ -1,6 +1,7 @@
 import { en } from 'element-plus/es/locale'
 import hyRequest from '../index'
-import { IAccount, ILoginResult, IDataType } from './type'
+import { IAccount, ILoginResult } from './type'
+import { IDataType } from '../typed'
 
 enum LoginAPI {
   AccountLogin = '/login',
