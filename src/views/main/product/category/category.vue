@@ -1,7 +1,5 @@
 <template>
-  <div class="category">
-    <h2>category</h2>
-  </div>
+  <div class="role">123</div>
 </template>
 
 <script lang="ts">
@@ -9,6 +7,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'category',
+  components: {},
   setup() {
     return {}
   }

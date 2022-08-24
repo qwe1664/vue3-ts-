@@ -10,7 +10,13 @@ const systemModule: Module<ISystemState, IRootState> = {
       usersList: [],
       usersCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      categoryList: [],
+      categoryCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   mutations: {
@@ -23,20 +29,38 @@ const systemModule: Module<ISystemState, IRootState> = {
     changeRoleList(state, List: any[]) {
       state.roleList = List
     },
-    changeRoleCount(state, Count: number) {
-      state.roleCount = Count
+    changeRoleCount(state, count: number) {
+      state.roleCount = count
+    },
+    changeGoodsList(state, List: any[]) {
+      state.goodsList = List
+    },
+    changeGoodsCount(state, count: number) {
+      state.goodsCount = count
+    },
+    changeCategoryList(state, List: any[]) {
+      state.categoryList = List
+    },
+    changeCategoryCount(state, count: number) {
+      state.categoryCount = count
+    },
+    changeMenuList(state, List: any[]) {
+      state.menuList = List
+    },
+    changeMenuCount(state, count: number) {
+      state.menuCount = count
     }
   },
   getters: {
     pageListData(state) {
       return (pageName: string) => {
-        // return (state as any)[`${pageName}List`]  //这一行也是可以的  但是switch阅读性更强
-        switch (pageName) {
-          case 'users':
-            return state.usersList
-          case 'role':
-            return state.roleList
-        }
+        return (state as any)[`${pageName}List`] //这一行也是可以的  但是switch阅读性更强
+        // switch (pageName) {
+        //   case 'users':
+        //     return state.usersList
+        //   case 'role':
+        //     return state.roleList
+        // }
       }
     },
     pageListCount(state) {

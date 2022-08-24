@@ -19,6 +19,8 @@ export default defineComponent({
   name: 'role',
   components: { PageContent, PageSearch },
   setup() {
+    console.log(contentTableConfig)
+
     return {
       contentTableConfig,
       searchFormConfig
