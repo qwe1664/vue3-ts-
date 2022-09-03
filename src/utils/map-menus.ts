@@ -2,6 +2,7 @@ import { IBreadcrumb } from '@/base-ui/breadcrumb'
 import { RouteRecordRaw } from 'vue-router'
 
 let firstMenu: any = null
+// let firstMenu: any = '/login'
 
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
@@ -77,6 +78,22 @@ export function mapMenusToPermissions(userMenus: any[]) {
   }
   _recurseGetPermission(userMenus)
   return permissions
+}
+
+export function menuMapLeafKeys(menuList: any[]) {
+  const leftKeys: number[] = []
+
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leftKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+  return leftKeys
 }
 
 export { firstMenu }

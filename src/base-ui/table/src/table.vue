@@ -61,6 +61,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+
 export default defineComponent({
   props: {
     title: {
@@ -79,6 +80,8 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    dataList: { type: Array, required: true },
+
     showIndexCoumn: {
       type: Boolean,
       default: false

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     // 目标代码(ts -> js (es5/6/7)) 转换成
+    // "target": "esnext",
     "target": "esnext",
     // 目标代码需要使用的模块化方案(commonjs require/module.exports/es  module  import/export)  这里还可以设置为umd 表示支持多种模块化方案
     "module": "esnext",
@@ -29,7 +30,7 @@
       "components/*": ["src/components/*"]
     },
     // 可以指定在项目中可以 使用哪些库的类型（Proxy/window/Document）
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost","es2017","DOM"]
   },
   "include": [
     "src/**/*.ts",

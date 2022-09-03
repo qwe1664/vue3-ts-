@@ -47,6 +47,8 @@ router.beforeEach((to) => {
     // if (to.name === 'notFound') {
     //   to.name = 'user'
     // }
+    console.log(firstMenu)
+
     return firstMenu.url
   }
 })

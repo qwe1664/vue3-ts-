@@ -9,7 +9,9 @@
       <!-- 1、header中的插槽 -->
       <template #headerHandler>
         <!-- @click="handleNewUser" -->
-        <el-button type="primary" v-if="isCreate">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate" @click="handleNewClick"
+          >新建用户</el-button
+        >
         <el-button>刷新</el-button>
       </template>
 
@@ -27,17 +29,29 @@
           </el-button>
         </template>
       </template>
+
       <template #createAt="{ row }">
         <!-- 格式化时间 -->
         <!-- 老师的格式化时间是  $filters.formatTime(row.createAt) -->
-        <strong>{{ dateFliter(row.createAt) }}</strong>
+        <!-- moment(row.createAt).format('YYYY-MM-DD') -->
+        <strong>{{ row.createAt }}</strong>
       </template>
-      <template #handler>
+      <template #handler="{ row }">
         <div class="handle-btns">
-          <el-button size="small" text style="color: blue" v-if="isUpdate"
+          <el-button
+            size="small"
+            text
+            style="color: blue"
+            v-if="isUpdate"
+            @click="handleEditClick(row)"
             >编辑</el-button
           >
-          <el-button size="small" text style="color: red" v-if="isDelete"
+          <el-button
+            size="small"
+            text
+            style="color: red"
+            v-if="isDelete"
+            @click="handleDeleteClick(row)"
             >删除</el-button
           >
         </div>
@@ -63,6 +77,7 @@ import { useStore } from 'vuex'
 import dayjs from 'dayjs'
 import HyTable from '@/base-ui/table'
 import { usePermission } from '@/hooks/use-permission'
+import moment from 'moment'
 
 export default defineComponent({
   components: { HyTable },
@@ -76,7 +91,7 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
 
     // 0、获取操作的权限
@@ -86,7 +101,7 @@ export default defineComponent({
     const isQuery = usePermission(props.pageName, 'query')
 
     // 1、双向绑定pageInfo
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
 
     // 2、发送网络请求
@@ -95,19 +110,42 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
     }
     getPageData()
-
-    const dateFliter = (val: any, format = 'YYYY-MM-DD hh:mm:ss') => {
-      if (!isNaN(val)) {
-        val = parseInt(val)
+    // val: any, format = 'YYYY-MM-DD hh:mm:ss'
+    const dateFliter = (date: any) => {
+      // if (!isNaN(val)) {
+      //   val = parseInt(val)
+      // }
+      // return dayjs(val).format(format)
+      var seperator1 = '-'
+      var seperator2 = ':'
+      var month = date.getMonth() + 1
+      var strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
       }
-      return dayjs(val).format(format)
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      var currentdate =
+        date.getFullYear() +
+        seperator1 +
+        month +
+        seperator1 +
+        strDate +
+        ' ' +
+        date.getHours() +
+        seperator2 +
+        date.getMinutes() +
+        seperator2 +
+        date.getSeconds()
+      return currentdate
     }
 
     // 3、从vuex中获取数据
@@ -130,6 +168,23 @@ export default defineComponent({
       }
     )
 
+    // 删除行
+    const handleDeleteClick = (item: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
+    // 新增按钮点击事件
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+
+    // 表格中 编辑按钮
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
     return {
       dataList,
       dataCount,
@@ -139,7 +194,11 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick,
+      moment
     }
   }
 })

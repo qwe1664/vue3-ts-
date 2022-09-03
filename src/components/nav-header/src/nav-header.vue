@@ -23,6 +23,7 @@
             <el-dropdown-menu>
               <el-dropdown-item>用户信息</el-dropdown-item>
               <el-dropdown-item>系统管理</el-dropdown-item>
+              <!-- @click="handleExitClick" -->
               <el-dropdown-item divided>退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -36,11 +37,13 @@
 import { defineComponent, ref, computed } from 'vue'
 import { Fold, Expand, ArrowDown } from '@element-plus/icons-vue'
 import store, { useStore } from '@/store'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import HyBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
 
 // import { useStore } from '@/store'
 import { pathMapBreadcrumbs } from '@/utils/map-menus'
+import LocalCache from '@/utils/cache'
+import user from '@/router/main/system/user/user'
 
 export default defineComponent({
   emits: ['foldChange'],
@@ -65,11 +68,19 @@ export default defineComponent({
       return pathMapBreadcrumbs(userMenus, currentPath)
     })
 
+    // 退出登录
+    const router = useRouter()
+    // const handleExitClick = () => {
+    //   LocalCache.deleteCache('token')
+    //   router.push('/main')
+    // }
+
     return {
       isFold,
       name,
       breadcrumb,
       handleFoldClick
+      // handleExitClick
     }
   }
 })
