@@ -26,6 +26,7 @@ module.exports = {
     // 这个是关闭定义接口时的警告,让它自动类型推导
     '@typescript-eslint/no-unused-vars': 'off',
     // 'vue/no-mutating-props': 'off'
-    'vue/no-mutating-props': 'off'
+    'vue/no-mutating-props': 'off',
+    '@typescript-eslint/no-non-null-assertion':'off'
   }
 }

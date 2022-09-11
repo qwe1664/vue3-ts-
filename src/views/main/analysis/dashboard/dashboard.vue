@@ -1,52 +1,56 @@
 <template>
   <div class="dashboard">
-    <div ref="divRef" :style="{ width: '400px', height: '300px' }"></div>
+    <el-row :gutter="15">
+      <el-col :span="7">
+        <HyCard title="分类商品数量(饼图)">
+          <PieEchart :pie-data="categoryGoodsCount"></PieEchart>
+        </HyCard>
+      </el-col>
+      <el-col :span="10"> <HyCard title="不同城市商品销量"></HyCard></el-col>
+      <el-col :span="7">
+        <HyCard title="分类商品数量(玫瑰图)"></HyCard>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="10" class="content-row">
+      <el-col :span="12">
+        <HyCard title="分类商品的销量"></HyCard>
+      </el-col>
+      <el-col :span="12">
+        <HyCard title="分类商品的收藏"></HyCard>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-import * as echarts from 'echarts'
+import { defineComponent, computed } from 'vue'
+import { useStore } from '@/store'
+
+import HyCard from '@/base-ui/card'
+import { PieEchart } from '@/components/page-echarts'
 
 export default defineComponent({
   name: 'dashboard',
+  components: { HyCard, PieEchart },
   setup() {
-    const divRef = ref<HTMLElement>()
-    onMounted(() => {
-      // 1、获取实例
-      const echartInstance = echarts.init(divRef.value!)
+    const store = useStore()
+    store.dispatch('dashboard/getDashboardDataAction')
 
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-          data: ['销量']
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      }
-
-      // 3、对图标的更新
-      echartInstance.setOption(option)
+    const categoryGoodsCount = computed(() => {
+      return store.state.dashboard.categoryGoodsCount.map((item: any) => {
+        return { name: item.name, value: item.goodsCount }
+      })
     })
-
     return {
-      divRef
+      categoryGoodsCount
     }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.content-row {
+  margin-top: 10px;
+}
+</style>
